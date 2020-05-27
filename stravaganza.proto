@@ -1,0 +1,22 @@
+/*
+ * Copyright (c) 2020 Miguel Ángel Ortuño.
+ * See the LICENSE file for more information.
+ */
+
+syntax="proto3";
+
+package stravaganza;
+
+option go_package = "github.com/jackal-xmpp/stravaganza;stravaganza";
+
+message PBAttribute {
+  string label = 1;
+  string value = 2;
+}
+
+message PBElement {
+  string name = 1;
+  repeated PBAttribute attributes = 2;
+  repeated PBElement elements = 3;
+  string text = 4;
+}
