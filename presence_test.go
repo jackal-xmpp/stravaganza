@@ -11,6 +11,15 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestPresence_IsStanza(t *testing.T) {
+	p, _ := NewBuilder("presence").
+		WithAttribute("from", "ortuman@jackal.im/yard").
+		WithAttribute("to", "noelia@jackal.im/balcony").
+		BuildPresence(false)
+
+	require.True(t, IsStanza(p))
+}
+
 func TestPresence_IsAvailable(t *testing.T) {
 	p, _ := NewBuilder("presence").
 		WithAttribute("from", "ortuman@jackal.im/yard").

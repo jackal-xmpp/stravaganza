@@ -11,6 +11,16 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestMessage_IsStanza(t *testing.T) {
+	m, _ := NewBuilder("message").
+		WithAttribute("from", "ortuman@jackal.im/yard").
+		WithAttribute("to", "noelia@jackal.im/balcony").
+		WithAttribute("type", NormalType).
+		BuildMessage(false)
+
+	require.True(t, IsStanza(m))
+}
+
 func TestMessage_IsNormal(t *testing.T) {
 	m1, _ := NewBuilder("message").
 		WithAttribute("from", "ortuman@jackal.im/yard").

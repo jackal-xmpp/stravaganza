@@ -16,6 +16,15 @@ const (
 	ErrorType = "error"
 )
 
+// IsStanza tells whether or not el element is of type stanza.
+func IsStanza(el Element) bool {
+	switch el.Name() {
+	case "iq", "presence", "message":
+		return true
+	}
+	return false
+}
+
 type stanza struct {
 	element
 	toJID, fromJID *jid.JID

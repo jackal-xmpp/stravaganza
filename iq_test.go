@@ -11,6 +11,18 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestIQ_IsStanza(t *testing.T) {
+	iq, _ := NewBuilder("iq").
+		WithAttribute("id", "1234").
+		WithAttribute("from", "ortuman@jackal.im/yard").
+		WithAttribute("to", "noelia@jackal.im/balcony").
+		WithAttribute("type", GetType).
+		WithChild(NewBuilder("q").Build()).
+		BuildIQ(false)
+
+	require.True(t, IsStanza(iq))
+}
+
 func TestIQ_IsGet(t *testing.T) {
 	iq, _ := NewBuilder("iq").
 		WithAttribute("id", "1234").
