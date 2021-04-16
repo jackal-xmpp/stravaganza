@@ -25,6 +25,7 @@ import (
 
 func main() {
 	iq, err := stravaganza.NewBuilder("iq").
+		WithValidateJIDs(true).		
 		WithAttribute("id", "zid615d9").
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
@@ -34,7 +35,6 @@ func main() {
 				WithAttribute("xmlns", "urn:xmpp:ping").
 				Build(),
 		).
-        WithValidateJIDs(true).
 		BuildIQ()
 	if err != nil {
 		_, _ = fmt.Fprint(os.Stderr, err.Error())
