@@ -23,9 +23,10 @@ import (
 
 // Builder builds generic XML node elements.
 type Builder struct {
-	attrs      []*PBAttribute
-	elements   []*PBElement
-	name, text string
+	attrs        []*PBAttribute
+	elements     []*PBElement
+	name, text   string
+	validateJIDs bool
 }
 
 // NewBuilder returns a name initialized builder instance.
@@ -43,7 +44,7 @@ func NewPresenceBuilder() *Builder {
 	return NewBuilder("presence")
 }
 
-// NewPresenceBuilder returns an 'iq' stanza builder instance.
+// NewIQBuilder returns an 'iq' stanza builder instance.
 func NewIQBuilder() *Builder {
 	return NewBuilder("iq")
 }
@@ -167,26 +168,32 @@ func (b *Builder) WithText(text string) *Builder {
 	return b
 }
 
+// WithValidateJIDs sets validate JIDs value.
+func (b *Builder) WithValidateJIDs(validateJIDs bool) *Builder {
+	b.validateJIDs = validateJIDs
+	return b
+}
+
 // Build returns a new element instance.
 func (b *Builder) Build() Element {
 	return &element{pb: b.buildProtoElement()}
 }
 
 // BuildStanza validates and returns a generic stanza instance.
-func (b *Builder) BuildStanza(validateJIDs bool) (Stanza, error) {
+func (b *Builder) BuildStanza() (Stanza, error) {
 	pbElem := b.buildProtoElement()
 	s := &stanza{
 		element: element{pb: pbElem},
 	}
 	// validate 'to' and 'from' JIDs...
-	if err := s.setFromAndToJIDs(validateJIDs); err != nil {
+	if err := s.setFromAndToJIDs(b.validateJIDs); err != nil {
 		return nil, err
 	}
 	return s, nil
 }
 
 // BuildIQ validates and returns a new IQ stanza.
-func (b *Builder) BuildIQ(validateJIDs bool) (*IQ, error) {
+func (b *Builder) BuildIQ() (*IQ, error) {
 	if b.name != "iq" {
 		return nil, fmt.Errorf("stravaganza: wrong iq element name: %s", b.name)
 	}
@@ -214,14 +221,14 @@ func (b *Builder) BuildIQ(validateJIDs bool) (*IQ, error) {
 		},
 	}
 	// validate 'to' and 'from' JIDs...
-	if err := iq.setFromAndToJIDs(validateJIDs); err != nil {
+	if err := iq.setFromAndToJIDs(b.validateJIDs); err != nil {
 		return nil, err
 	}
 	return iq, nil
 }
 
 // BuildMessage validates and returns a new Message stanza.
-func (b *Builder) BuildMessage(validateJIDs bool) (*Message, error) {
+func (b *Builder) BuildMessage() (*Message, error) {
 	if b.name != "message" {
 		return nil, fmt.Errorf(`stravaganza: wrong message element name: %s`, b.name)
 	}
@@ -236,14 +243,14 @@ func (b *Builder) BuildMessage(validateJIDs bool) (*Message, error) {
 		},
 	}
 	// validate 'to' and 'from' JIDs...
-	if err := m.setFromAndToJIDs(validateJIDs); err != nil {
+	if err := m.setFromAndToJIDs(b.validateJIDs); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
 // BuildPresence validates and returns a new Presence stanza.
-func (b *Builder) BuildPresence(validateJIDs bool) (*Presence, error) {
+func (b *Builder) BuildPresence() (*Presence, error) {
 	if b.name != "presence" {
 		return nil, fmt.Errorf("stravaganza: wrong presence element name: %s", b.name)
 	}
@@ -258,7 +265,7 @@ func (b *Builder) BuildPresence(validateJIDs bool) (*Presence, error) {
 		},
 	}
 	// validate 'to' and 'from' JIDs...
-	if err := p.setFromAndToJIDs(validateJIDs); err != nil {
+	if err := p.setFromAndToJIDs(b.validateJIDs); err != nil {
 		return nil, err
 	}
 	// validate presence status...

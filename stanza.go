@@ -17,7 +17,7 @@ package stravaganza
 import (
 	"errors"
 
-	"github.com/jackal-xmpp/stravaganza/jid"
+	"github.com/jackal-xmpp/stravaganza/v2/jid"
 )
 
 const (

@@ -17,7 +17,7 @@ package streamerror
 import (
 	"fmt"
 
-	"github.com/jackal-xmpp/stravaganza"
+	"github.com/jackal-xmpp/stravaganza/v2"
 )
 
 const xmppStanzaNamespace = "urn:ietf:params:xml:ns:xmpp-stanzas"

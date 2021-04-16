@@ -9,7 +9,7 @@
 
 ### Installation
 ```bash
-go get -u github.com/jackal-xmpp/stravaganza
+go get -u github.com/jackal-xmpp/stravaganza/v2
 ```
 
 ### Example
@@ -34,7 +34,8 @@ func main() {
 				WithAttribute("xmlns", "urn:xmpp:ping").
 				Build(),
 		).
-		BuildIQ(true)
+        WithValidateJIDs(true).
+		BuildIQ()
 	if err != nil {
 		_, _ = fmt.Fprint(os.Stderr, err.Error())
 		return

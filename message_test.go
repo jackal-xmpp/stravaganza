@@ -25,7 +25,7 @@ func TestMessage_IsStanza(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", NormalType).
-		BuildMessage(false)
+		BuildMessage()
 
 	require.True(t, IsStanza(m))
 }
@@ -35,12 +35,12 @@ func TestMessage_IsNormal(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", NormalType).
-		BuildMessage(false)
+		BuildMessage()
 
 	m2, _ := NewBuilder("message").
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
-		BuildMessage(false)
+		BuildMessage()
 
 	require.True(t, m1.IsNormal())
 	require.True(t, m2.IsNormal())
@@ -51,7 +51,7 @@ func TestMessage_IsHeadline(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", HeadlineType).
-		BuildMessage(false)
+		BuildMessage()
 
 	require.True(t, m.IsHeadline())
 }
@@ -61,7 +61,7 @@ func TestMessage_IsChat(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", ChatType).
-		BuildMessage(false)
+		BuildMessage()
 
 	require.True(t, m.IsChat())
 }
@@ -71,7 +71,7 @@ func TestMessage_IsGroupChat(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", GroupChatType).
-		BuildMessage(false)
+		BuildMessage()
 
 	require.True(t, m.IsGroupChat())
 }
@@ -82,7 +82,7 @@ func TestMessage_IsMessageWithBody(t *testing.T) {
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", NormalType).
 		WithChild(NewBuilder("body").Build()).
-		BuildMessage(false)
+		BuildMessage()
 
 	require.True(t, m.IsMessageWithBody())
 }
