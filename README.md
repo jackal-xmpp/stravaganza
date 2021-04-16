@@ -9,7 +9,7 @@
 
 ### Installation
 ```bash
-go get -u github.com/jackal-xmpp/stravaganza
+go get -u github.com/jackal-xmpp/stravaganza/v2
 ```
 
 ### Example
@@ -25,6 +25,7 @@ import (
 
 func main() {
 	iq, err := stravaganza.NewBuilder("iq").
+		WithValidateJIDs(true).		
 		WithAttribute("id", "zid615d9").
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
@@ -34,7 +35,7 @@ func main() {
 				WithAttribute("xmlns", "urn:xmpp:ping").
 				Build(),
 		).
-		BuildIQ(true)
+		BuildIQ()
 	if err != nil {
 		_, _ = fmt.Fprint(os.Stderr, err.Error())
 		return

@@ -27,7 +27,7 @@ func TestIQ_IsStanza(t *testing.T) {
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", GetType).
 		WithChild(NewBuilder("q").Build()).
-		BuildIQ(false)
+		BuildIQ()
 
 	require.True(t, IsStanza(iq))
 }
@@ -39,7 +39,7 @@ func TestIQ_IsGet(t *testing.T) {
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", GetType).
 		WithChild(NewBuilder("q").Build()).
-		BuildIQ(false)
+		BuildIQ()
 
 	require.True(t, iq.IsGet())
 }
@@ -51,7 +51,7 @@ func TestIQ_IsSet(t *testing.T) {
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", SetType).
 		WithChild(NewBuilder("q").Build()).
-		BuildIQ(false)
+		BuildIQ()
 
 	require.True(t, iq.IsSet())
 }
@@ -63,7 +63,7 @@ func TestIQ_IsResult(t *testing.T) {
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", ResultType).
 		WithChild(NewBuilder("q").Build()).
-		BuildIQ(false)
+		BuildIQ()
 
 	require.True(t, iq.IsResult())
 }
@@ -75,9 +75,9 @@ func TestIQ_ResultIQ(t *testing.T) {
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", SetType).
 		WithChild(NewBuilder("q").Build()).
-		BuildIQ(false)
+		BuildIQ()
 
-	resultIQ, _ := iq.ResultBuilder().BuildIQ(false)
+	resultIQ, _ := iq.ResultBuilder().BuildIQ()
 
 	require.Equal(t, iq.ID(), resultIQ.ID())
 	require.Equal(t, ResultType, resultIQ.Type())

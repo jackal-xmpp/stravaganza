@@ -73,7 +73,8 @@ func TestStanza_SetInvalidFromAndToJIDs(t *testing.T) {
 		WithAttribute("xmlns", "ns-1").
 		WithAttribute("id", "s1234").
 		WithAttribute("type", "error").
-		BuildStanza(true)
+		WithValidateJIDs(true).
+		BuildStanza()
 
 	require.Nil(t, s)
 	require.NotNil(t, err)
@@ -83,7 +84,8 @@ func TestStanza_SetInvalidFromAndToJIDs(t *testing.T) {
 		WithAttribute("id", "s1234").
 		WithAttribute("type", "error").
 		WithAttribute("from", "ortuman").
-		BuildStanza(true)
+		WithValidateJIDs(true).
+		BuildStanza()
 
 	require.Nil(t, s)
 	require.NotNil(t, err)
@@ -94,7 +96,8 @@ func TestStanza_SetInvalidFromAndToJIDs(t *testing.T) {
 		WithAttribute("type", "error").
 		WithAttribute("from", "ortuman@").
 		WithAttribute("to", "noelia@").
-		BuildStanza(true)
+		WithValidateJIDs(true).
+		BuildStanza()
 
 	require.Nil(t, s)
 	require.NotNil(t, err)
@@ -105,7 +108,8 @@ func TestStanza_SetInvalidFromAndToJIDs(t *testing.T) {
 		WithAttribute("type", "error").
 		WithAttribute("from", "ortuman@jackal.im").
 		WithAttribute("to", "noelia@").
-		BuildStanza(true)
+		WithValidateJIDs(true).
+		BuildStanza()
 
 	require.Nil(t, s)
 	require.NotNil(t, err)
@@ -121,6 +125,7 @@ func newTestStanza(t *testing.T) *stanza {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithChild(NewBuilder("error").Build()).
-		BuildStanza(true)
+		WithValidateJIDs(true).
+		BuildStanza()
 	return s.(*stanza)
 }

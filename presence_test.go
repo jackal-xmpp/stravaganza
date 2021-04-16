@@ -24,7 +24,7 @@ func TestPresence_IsStanza(t *testing.T) {
 	p, _ := NewBuilder("presence").
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
-		BuildPresence(false)
+		BuildPresence()
 
 	require.True(t, IsStanza(p))
 }
@@ -33,7 +33,7 @@ func TestPresence_IsAvailable(t *testing.T) {
 	p, _ := NewBuilder("presence").
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
-		BuildPresence(false)
+		BuildPresence()
 
 	require.True(t, p.IsAvailable())
 }
@@ -43,7 +43,7 @@ func TestPresence_IsUnavailable(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", UnavailableType).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.True(t, p.IsUnavailable())
 }
@@ -53,7 +53,7 @@ func TestPresence_IsSubscribe(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", SubscribeType).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.True(t, p.IsSubscribe())
 }
@@ -63,7 +63,7 @@ func TestPresence_IsUnsubscribe(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", UnsubscribeType).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.True(t, p.IsUnsubscribe())
 }
@@ -73,7 +73,7 @@ func TestPresence_IsSubscribed(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", SubscribedType).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.True(t, p.IsSubscribed())
 }
@@ -83,7 +83,7 @@ func TestPresence_IsUnsubscribed(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", UnsubscribedType).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.True(t, p.IsUnsubscribed())
 }
@@ -93,7 +93,7 @@ func TestPresence_IsProbe(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithAttribute("type", ProbeType).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.True(t, p.IsProbe())
 }
@@ -103,7 +103,7 @@ func TestPresence_ValidateValidStatus(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithChild(NewBuilder("status").WithAttribute("xml:lang", "en").WithText("Away").Build()).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.NotNil(t, p)
 	require.Nil(t, err)
@@ -123,7 +123,7 @@ func TestPresence_Capabilities(t *testing.T) {
 				WithAttribute("hash", "sha1").
 				Build(),
 		).
-		BuildPresence(false)
+		BuildPresence()
 
 	c := p.Capabilities()
 
@@ -139,7 +139,7 @@ func TestPresence_ValidateInvalidStatus(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithChild(NewBuilder("status").WithAttribute("foo", "value").WithText("Away").Build()).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.Nil(t, p)
 	require.NotNil(t, err)
@@ -150,7 +150,7 @@ func TestPresence_SetShow(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithChild(NewBuilder("show").WithText("chat").Build()).
-		BuildPresence(false)
+		BuildPresence()
 
 	err := p.setShow()
 
@@ -163,7 +163,7 @@ func TestPresence_SetInvalidShow(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithChild(NewBuilder("show").WithText("foo").Build()).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.Nil(t, p)
 	require.NotNil(t, err)
@@ -174,7 +174,7 @@ func TestPresence_SetPriority(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithChild(NewBuilder("priority").WithText("126").Build()).
-		BuildPresence(false)
+		BuildPresence()
 
 	err := p.setPriority()
 
@@ -187,7 +187,7 @@ func TestPresence_SetInvalidPriority(t *testing.T) {
 		WithAttribute("from", "ortuman@jackal.im/yard").
 		WithAttribute("to", "noelia@jackal.im/balcony").
 		WithChild(NewBuilder("priority").WithText("300").Build()).
-		BuildPresence(false)
+		BuildPresence()
 
 	require.Nil(t, p)
 	require.NotNil(t, err)

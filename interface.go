@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/jackal-xmpp/stravaganza/jid"
+	"github.com/jackal-xmpp/stravaganza/v2/jid"
 )
 
 // Attribute represents an XML node attribute (label=value).

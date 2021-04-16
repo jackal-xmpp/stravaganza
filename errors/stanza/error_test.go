@@ -17,7 +17,7 @@ package stanzaerror
 import (
 	"testing"
 
-	"github.com/jackal-xmpp/stravaganza"
+	"github.com/jackal-xmpp/stravaganza/v2"
 	"github.com/stretchr/testify/require"
 )
 
@@ -174,6 +174,7 @@ func TestStanzaError_Stanza(t *testing.T) {
 
 func testMessageStanza() *stravaganza.Message {
 	b := stravaganza.NewMessageBuilder()
+	b.WithValidateJIDs(true)
 	b.WithAttribute("from", "noelia@jackal.im/yard")
 	b.WithAttribute("to", "ortuman@jackal.im/balcony")
 	b.WithChild(
@@ -181,6 +182,6 @@ func testMessageStanza() *stravaganza.Message {
 			WithText("Hi everyone!").
 			Build(),
 	)
-	msg, _ := b.BuildMessage(true)
+	msg, _ := b.BuildMessage()
 	return msg
 }

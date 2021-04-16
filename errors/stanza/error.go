@@ -17,7 +17,7 @@ package stanzaerror
 import (
 	"strconv"
 
-	"github.com/jackal-xmpp/stravaganza"
+	"github.com/jackal-xmpp/stravaganza/v2"
 )
 
 const xmppStanzaNamespace = "urn:ietf:params:xml:ns:xmpp-stanzas"
@@ -266,7 +266,8 @@ func (se *Error) Stanza(validateJIDs bool) (stravaganza.Stanza, error) {
 		WithAttribute(stravaganza.From, se.SentElement.Attribute(stravaganza.To)).
 		WithAttribute(stravaganza.To, se.SentElement.Attribute(stravaganza.From)).
 		WithChild(se.errSubElement()).
-		BuildStanza(validateJIDs)
+		WithValidateJIDs(validateJIDs).
+		BuildStanza()
 }
 
 func (se *Error) errSubElement() stravaganza.Element {
