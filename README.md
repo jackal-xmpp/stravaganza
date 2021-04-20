@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jackal-xmpp/stravaganza"
+	"github.com/jackal-xmpp/stravaganza/v2"
 )
 
 func main() {
