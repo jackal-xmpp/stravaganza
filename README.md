@@ -1,6 +1,6 @@
 # stravaganza
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjackal-xmpp%2Fantenna%2Fbadge&style=flat)](https://actions-badge.atrox.dev/jackal-xmpp/stravaganza/goto)
+![CI Status](https://github.com/jackal-xmpp/stravaganza/workflows/CI/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jackal-xmpp/stravaganza?style=flat-square)](https://goreportcard.com/report/github.com/jackal-xmpp/stravaganza)
 [![Coverage](https://codecov.io/gh/jackal-xmpp/stravaganza/branch/master/graph/badge.svg)](https://codecov.io/gh/jackal-xmpp/stravaganza)
 [![Godoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://godoc.org/github.com/jackal-xmpp/stravaganza)
@@ -46,7 +46,7 @@ func main() {
 
 Expected output:
 ```
-<iq id="zid615d9" from="ortuman@jackal.im/yard" to="noelia@jackal.im/balcony" type="get"><ping xmlns="urn:xmpp:ping"/></iq>
+<iq id='zid615d9' from='ortuman@jackal.im/yard' to='noelia@jackal.im/balcony' type='get'><ping xmlns='urn:xmpp:ping'/></iq>
 ```
 
 ### Contributing
