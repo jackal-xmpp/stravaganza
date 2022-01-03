@@ -149,7 +149,7 @@ func TestStanzaError_Element(t *testing.T) {
 	seElem := se.Element()
 
 	// then
-	expectedOutput := `<message from="ortuman@jackal.im/balcony" to="noelia@jackal.im/yard" type="error"><body>Hi everyone!</body><error code="500" type="wait"><internal-server-error xmlns="urn:ietf:params:xml:ns:xmpp-stanzas"/><text xmlns="urn:ietf:params:xml:ns:xmpp-stanzas" xml:lang="es">Error interno de servidor</text><app-specific xmlns="app-ns"/></error></message>`
+	expectedOutput := "<message from='ortuman@jackal.im/balcony' to='noelia@jackal.im/yard' type='error'><body>Hi everyone!</body><error code='500' type='wait'><internal-server-error xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/><text xmlns='urn:ietf:params:xml:ns:xmpp-stanzas' xml:lang='es'>Error interno de servidor</text><app-specific xmlns='app-ns'/></error></message>"
 	require.Equal(t, expectedOutput, seElem.String())
 }
 
@@ -168,7 +168,7 @@ func TestStanzaError_Stanza(t *testing.T) {
 	seStanza, _ := se.Stanza(true)
 
 	// then
-	expectedOutput := `<message from="ortuman@jackal.im/balcony" to="noelia@jackal.im/yard" type="error"><body>Hi everyone!</body><error code="500" type="wait"><internal-server-error xmlns="urn:ietf:params:xml:ns:xmpp-stanzas"/><text xmlns="urn:ietf:params:xml:ns:xmpp-stanzas" xml:lang="es">Error interno de servidor</text><app-specific xmlns="app-ns"/></error></message>`
+	expectedOutput := "<message from='ortuman@jackal.im/balcony' to='noelia@jackal.im/yard' type='error'><body>Hi everyone!</body><error code='500' type='wait'><internal-server-error xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/><text xmlns='urn:ietf:params:xml:ns:xmpp-stanzas' xml:lang='es'>Error interno de servidor</text><app-specific xmlns='app-ns'/></error></message>"
 	require.Equal(t, expectedOutput, seStanza.String())
 }
 

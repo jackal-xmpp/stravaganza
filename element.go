@@ -118,19 +118,19 @@ func (e *element) ToXML(w io.Writer, includeClosing bool) error {
 		if len(attr.Value) == 0 {
 			continue
 		}
-		if _, err := io.WriteString(w, ` `); err != nil {
+		if _, err := io.WriteString(w, " "); err != nil {
 			return err
 		}
 		if _, err := io.WriteString(w, attr.Label); err != nil {
 			return err
 		}
-		if _, err := io.WriteString(w, `="`); err != nil {
+		if _, err := io.WriteString(w, "='"); err != nil {
 			return err
 		}
 		if _, err := io.WriteString(w, attr.Value); err != nil {
 			return err
 		}
-		if _, err := io.WriteString(w, `"`); err != nil {
+		if _, err := io.WriteString(w, "'"); err != nil {
 			return err
 		}
 	}
