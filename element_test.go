@@ -103,8 +103,8 @@ func TestElement_ToXML(t *testing.T) {
 	str := el.String()
 	goStr := el.GoString()
 
-	require.Equal(t, "<n1 l1=\"v1\">Where arth thou, my Juliet?<n2 xmlns=\"ns2\"/></n1>", buf1.String())
-	require.Equal(t, "<n1 l1=\"v1\">Where arth thou, my Juliet?<n2 xmlns=\"ns2\"/>", buf2.String())
+	require.Equal(t, "<n1 l1='v1'>Where arth thou, my Juliet?<n2 xmlns='ns2'/></n1>", buf1.String())
+	require.Equal(t, "<n1 l1='v1'>Where arth thou, my Juliet?<n2 xmlns='ns2'/>", buf2.String())
 
 	require.Equal(t, buf1.String(), str)
 	require.Equal(t, str, goStr)
