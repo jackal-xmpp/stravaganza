@@ -18,7 +18,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/jackal-xmpp/stravaganza/v2/jid"
+	"github.com/jackal-xmpp/stravaganza/jid"
 	"github.com/stretchr/testify/require"
 )
 

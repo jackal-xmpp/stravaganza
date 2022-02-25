@@ -1,4 +1,4 @@
-name: "Check"
+name: "CI"
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: '^1.13.1'
+          go-version: '^1.17.3'
 
       - name: Setup Go linter
         run: go get -u -v golang.org/x/tools/cmd/goimports golang.org/x/lint/golint
@@ -25,3 +25,23 @@ jobs:
 
       - name: Run checks
         run: make check
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.13.1'
+
+      - name: Run tests
+        run: make test | make coverage
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1.0.7
+        with:
+          file: coverage.txt

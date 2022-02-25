@@ -282,6 +282,12 @@ func (b *Builder) BuildPresence() (*Presence, error) {
 	return p, nil
 }
 
+// EmptyElement returns an empty element instace.
+// Useful in case you want to deserialize an element using encoding.UnmarshalBinary interface.
+func EmptyElement() Element {
+	return &element{pb: &PBElement{}}
+}
+
 func (b *Builder) buildProtoElement() *PBElement {
 	return &PBElement{
 		Name:       b.name,

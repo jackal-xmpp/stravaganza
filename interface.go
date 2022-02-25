@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/jackal-xmpp/stravaganza/v2/jid"
+	"github.com/jackal-xmpp/stravaganza/jid"
 )
 
 // Attribute represents an XML node attribute (label=value).
@@ -76,6 +76,7 @@ type Element interface {
 	ElementReader
 	XMLSerializer
 	encoding.BinaryMarshaler
+	encoding.BinaryUnmarshaler
 	fmt.Stringer
 	fmt.GoStringer
 
