@@ -29,3 +29,7 @@ message PBElement {
   repeated PBElement elements = 3;
   string text = 4;
 }
+
+message PBElements {
+  repeated PBElement elements = 1;
+}
