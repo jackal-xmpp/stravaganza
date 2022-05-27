@@ -1,13 +1,13 @@
 module github.com/jackal-xmpp/stravaganza
 
-go 1.17
+go 1.18
 
 require (
 	github.com/golang/protobuf v1.5.2
-	github.com/stretchr/testify v1.6.0
-	golang.org/x/net v0.0.0-20210415231046-e915ea6b2b7d
-	golang.org/x/text v0.3.6
-	google.golang.org/protobuf v1.26.0
+	github.com/stretchr/testify v1.7.1
+	golang.org/x/net v0.0.0-20220526153639-5463443f8c37
+	golang.org/x/text v0.3.7
+	google.golang.org/protobuf v1.28.0
 )
 
 require (
