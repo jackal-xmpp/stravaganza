@@ -154,7 +154,7 @@ func (b *Builder) WithoutChildren(name string) *Builder {
 func (b *Builder) WithoutChildrenNamespace(name, ns string) *Builder {
 	filtered := b.elements[:0]
 	for _, pbElem := range b.elements {
-		if pbElem.Name != name && getProtoElementAttribute(pbElem, xmlNamespace) == ns {
+		if pbElem.Name != name || getProtoElementAttribute(pbElem, xmlNamespace) != ns {
 			filtered = append(filtered, pbElem)
 		}
 	}

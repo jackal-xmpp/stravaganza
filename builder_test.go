@@ -123,18 +123,22 @@ func TestBuilder_WithoutChildren(t *testing.T) {
 }
 
 func TestBuilder_WithoutChildrenNamespace(t *testing.T) {
-	el1 := NewBuilderFromElement(nil).
-		WithName("n1").
-		WithAttribute("id", "id1234").
-		WithAttribute(xmlNamespace, "com.stravaganza.ns").
-		Build()
-	el2 := NewBuilderFromElement(nil).
+	el0 := NewBuilderFromElement(nil).
 		WithName("n2").
-		WithChildren(el1).
+		WithChild(
+			NewBuilder("n0").
+				Build(),
+		).
+		WithChild(
+			NewBuilder("n1").
+				WithAttribute(xmlNamespace, "com.stravaganza.ns").
+				Build(),
+		).
 		Build()
-	el3 := NewBuilderFromElement(el2).
+	el1 := NewBuilderFromElement(el0).
 		WithoutChildrenNamespace("n1", "com.stravaganza.ns").
 		Build()
 
-	require.Nil(t, el3.Child("n1"))
+	require.Nil(t, el1.Child("n1"))
+	require.Equal(t, 1, el1.ChildrenCount())
 }
