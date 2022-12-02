@@ -22,7 +22,11 @@ import (
 	"github.com/golang/protobuf/proto"
 )
 
-const xmlNamespace = "xmlns"
+const (
+	xmlNamespace = "xmlns"
+
+	maxStringerBufferSize = 256 * 1024
+)
 
 var bufPool = sync.Pool{
 	New: func() interface{} {
@@ -183,6 +187,9 @@ func (e *element) UnmarshalBinary(data []byte) error {
 func (e *element) String() string {
 	buf := bufPool.Get().(*bytes.Buffer)
 	defer func() {
+		if buf.Cap() > maxStringerBufferSize {
+			return // don't reuse large buffers
+		}
 		buf.Reset()
 		bufPool.Put(buf)
 	}()
