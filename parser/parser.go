@@ -19,6 +19,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/jackal-xmpp/stravaganza"
 )
@@ -168,7 +169,11 @@ func (p *Parser) closeElement(name string) error {
 
 func xmlName(space, local string) string {
 	if len(space) > 0 {
-		return fmt.Sprintf("%s:%s", space, local)
+		var sb strings.Builder
+		sb.WriteString(space)
+		sb.WriteString(":")
+		sb.WriteString(local)
+		return sb.String()
 	}
 	return local
 }

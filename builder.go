@@ -31,7 +31,11 @@ type Builder struct {
 
 // NewBuilder returns a name initialized builder instance.
 func NewBuilder(name string) *Builder {
-	return &Builder{name: name}
+	return &Builder{
+		name:     name,
+		attrs:    make([]*PBAttribute, 0, 32),
+		elements: make([]*PBElement, 0, 32),
+	}
 }
 
 // NewMessageBuilder returns a 'message' stanza builder instance.

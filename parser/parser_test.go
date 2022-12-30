@@ -103,7 +103,7 @@ func BenchmarkParser_Parse(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		r := strings.NewReader(docSrc)
-		p := New(r, SocketStream, 64*1024)
+		p := New(r, DefaultMode, 64*1024)
 
 		elem, err := p.Parse()
 
