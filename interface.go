@@ -30,7 +30,7 @@ type Attribute struct {
 
 // AttributeReader defines an XML attributes read-only interface.
 type AttributeReader interface {
-	// AllChildren returns a list of all node attributes.
+	// AllAttributes returns a list of all node attributes.
 	AllAttributes() []Attribute
 
 	// AttributeCount returns node total attribute count.
