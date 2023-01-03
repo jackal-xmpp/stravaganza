@@ -17,6 +17,9 @@ type Decoder interface {
 	// and then only read/touch the fields relevant for that kind.
 	NextToken(t *Token) error
 
+	// InputOffset returns the current offset in the input stream.
+	InputOffset() int
+
 	// Reset resets the Decoder to the given io.Reader.
 	Reset(r io.Reader)
 }
@@ -99,6 +102,10 @@ func (d *decoder) discard(n int) (int, error) {
 	}
 	d.r += n
 	return n, nil
+}
+
+func (d *decoder) InputOffset() int {
+	return d.r
 }
 
 func (d *decoder) Reset(r io.Reader) {

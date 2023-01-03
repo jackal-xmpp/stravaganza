@@ -1,5 +1,7 @@
 package gosaxml
 
+import "github.com/klauspost/cpuid/v2"
+
 var canUseSSE = cpuid.CPU.Has(cpuid.SSE2) && cpuid.CPU.Has(cpuid.BMI1)
 var canUseAVX2 = canUseSSE && cpuid.CPU.Has(cpuid.AVX2)
 
