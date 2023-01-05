@@ -95,7 +95,7 @@ func (p *Parser) Parse() (stravaganza.Element, error) {
 				goto done
 			}
 
-		case gosaxml.TokenTypeCharData:
+		case gosaxml.TokenTypeTextElement:
 			if p.inElement {
 				p.setElementText(&tk)
 			}
