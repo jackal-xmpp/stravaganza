@@ -15,21 +15,18 @@
 package xmppparser
 
 import (
-	"bytes"
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"io"
-	"strings"
-
-	"github.com/jackal-xmpp/stravaganza/parser/internal/gosaxml"
 
 	"github.com/jackal-xmpp/stravaganza"
 )
 
 const rootElementIndex = -1
 
-var (
-	streamName = []byte("stream")
+const (
+	streamName = "stream"
 )
 
 // ParsingMode defines the way in which special parsed element
@@ -52,31 +49,30 @@ var ErrStreamClosedByPeer = errors.New("parser: stream closed by peer")
 
 // Parser parses arbitrary XML input and builds an array with the structure of all tag and data elements.
 type Parser struct {
-	dec           gosaxml.Decoder
+	dec           *xml.Decoder
 	mode          ParsingMode
 	nextElement   stravaganza.Element
 	stack         []*stravaganza.Builder
-	inElement     bool
 	pIndex        int
-	lastOffset    int
-	maxStanzaSize int
+	inElement     bool
+	lastOffset    int64
+	maxStanzaSize int64
 }
 
 // New creates an empty Parser instance.
 func New(reader io.Reader, mode ParsingMode, maxStanzaSize int) *Parser {
 	return &Parser{
 		mode:          mode,
-		dec:           gosaxml.NewDecoder(reader),
+		dec:           xml.NewDecoder(reader),
 		pIndex:        rootElementIndex,
-		maxStanzaSize: maxStanzaSize,
+		maxStanzaSize: int64(maxStanzaSize),
 	}
 }
 
 // Parse parses next available XML element from reader.
 func (p *Parser) Parse() (stravaganza.Element, error) {
-	var tk gosaxml.Token
-
-	if err := p.dec.NextToken(&tk); err != nil {
+	t, err := p.dec.RawToken()
+	if err != nil {
 		return nil, err
 	}
 	for {
@@ -85,33 +81,34 @@ func (p *Parser) Parse() (stravaganza.Element, error) {
 		if p.maxStanzaSize > 0 && off-p.lastOffset > p.maxStanzaSize {
 			return nil, ErrTooLargeStanza
 		}
-		switch tk.Kind {
-		case gosaxml.TokenTypeStartElement:
-			p.startElement(&tk)
-			if p.mode == SocketStream && isStreamName(tk.Name) {
-				if err := p.closeElement(xmlName(tk.Name)); err != nil {
+		switch t1 := t.(type) {
+		case xml.StartElement:
+			p.startElement(t1)
+			if p.mode == SocketStream && t1.Name.Local == streamName && t1.Name.Space == streamName {
+				if err := p.closeElement(xmlName(t1.Name.Space, t1.Name.Local)); err != nil {
 					return nil, err
 				}
 				goto done
 			}
 
-		case gosaxml.TokenTypeTextElement:
+		case xml.CharData:
 			if p.inElement {
-				p.setElementText(&tk)
+				p.setElementText(t1)
 			}
 
-		case gosaxml.TokenTypeEndElement:
-			if p.mode == SocketStream && isStreamName(tk.Name) {
+		case xml.EndElement:
+			if p.mode == SocketStream && t1.Name.Local == streamName && t1.Name.Space == streamName {
 				return nil, ErrStreamClosedByPeer
 			}
-			if err := p.endElement(&tk); err != nil {
+			if err := p.endElement(t1); err != nil {
 				return nil, err
 			}
 			if p.pIndex == rootElementIndex {
 				goto done
 			}
 		}
-		if err := p.dec.NextToken(&tk); err != nil {
+		t, err = p.dec.RawToken()
+		if err != nil {
 			return nil, err
 		}
 	}
@@ -124,13 +121,13 @@ done:
 	return elem, nil
 }
 
-func (p *Parser) startElement(tk *gosaxml.Token) {
-	name := xmlName(tk.Name)
+func (p *Parser) startElement(t xml.StartElement) {
+	name := xmlName(t.Name.Space, t.Name.Local)
 
-	attrs := make([]stravaganza.Attribute, 0, len(tk.Attr))
-	for _, a := range tk.Attr {
-		name := xmlName(a.Name)
-		attrs = append(attrs, stravaganza.Attribute{Label: name, Value: string(a.Value)})
+	attrs := make([]stravaganza.Attribute, 0, len(t.Attr))
+	for _, a := range t.Attr {
+		name := xmlName(a.Name.Space, a.Name.Local)
+		attrs = append(attrs, stravaganza.Attribute{Label: name, Value: a.Value})
 	}
 	builder := stravaganza.NewBuilder(name).WithAttributes(attrs...)
 	p.stack = append(p.stack, builder)
@@ -139,12 +136,12 @@ func (p *Parser) startElement(tk *gosaxml.Token) {
 	p.inElement = true
 }
 
-func (p *Parser) setElementText(tk *gosaxml.Token) {
-	p.stack[p.pIndex] = p.stack[p.pIndex].WithText(string(tk.ByteData))
+func (p *Parser) setElementText(t xml.CharData) {
+	p.stack[p.pIndex] = p.stack[p.pIndex].WithText(string(t))
 }
 
-func (p *Parser) endElement(tk *gosaxml.Token) error {
-	return p.closeElement(xmlName(tk.Name))
+func (p *Parser) endElement(t xml.EndElement) error {
+	return p.closeElement(xmlName(t.Name.Space, t.Name.Local))
 }
 
 func (p *Parser) closeElement(name string) error {
@@ -169,19 +166,11 @@ func (p *Parser) closeElement(name string) error {
 	return nil
 }
 
-func xmlName(name gosaxml.Name) string {
-	if len(name.Prefix) > 0 {
-		var sb strings.Builder
-		sb.Write(name.Prefix)
-		sb.WriteRune(':')
-		sb.Write(name.Local)
-		return sb.String()
+func xmlName(space, local string) string {
+	if len(space) > 0 {
+		return fmt.Sprintf("%s:%s", space, local)
 	}
-	return string(name.Local)
-}
-
-func isStreamName(name gosaxml.Name) bool {
-	return bytes.Compare(name.Local, streamName) == 0 && bytes.Compare(name.Prefix, streamName) == 0
+	return local
 }
 
 func errUnexpectedEnd(name string) error {
